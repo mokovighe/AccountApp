@@ -1,24 +1,14 @@
 package com.ebuka.mainServlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.ebuka.dataObjects.IStatementDAO;
-
-///import org.apache.log4j.Logger;
-
 import com.ebuka.dataObjects.IUserDAO;
-import com.ebuka.dataObjects.StatementDAO;
 import com.ebuka.dataObjects.UserDAO;
-import com.ebuka.model.StatementModel;
 import com.ebuka.model.UserModel;
 
 @WebServlet(description = "Login post API", urlPatterns = { "/Login" })
@@ -64,11 +54,9 @@ public class Login extends HttpServlet {
 					loginError(request,response,message);
 				}
 				else if(u != null && u.getUsername() != null && u.getRole() != null && u.getRole().equalsIgnoreCase("superadmin"))
-				{				
-	    			ud.updateLoginCount(u.getUsername(), 1); //update login count
+				{					    			
 					System.out.println("Logged in user found with data = " + u);
-					HttpSession session =  request.getSession();
-					///session.setMaxInactiveInterval(5*60);
+					HttpSession session =  request.getSession();					
 					session.setAttribute("currentSessionUser",u); 
 					response.sendRedirect("welcome.jsp");
 					

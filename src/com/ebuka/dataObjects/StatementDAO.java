@@ -5,11 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.ebuka.dbWork.DBManager;
-import com.ebuka.model.AccountModel;
 import com.ebuka.model.StatementModel;
 import com.ebuka.utils.GenericHelpers;
 import com.google.gson.Gson;
@@ -115,6 +113,7 @@ public class StatementDAO implements IStatementDAO {
 	@Override
 	public StatementModel getStatementById(int id) {
 		StatementModel statement = new StatementModel();
+		IAccountDAO acDAO = new AccountDAO();
 		Gson gson = new Gson();
         
 		try {
@@ -131,6 +130,13 @@ public class StatementDAO implements IStatementDAO {
 				statement.setAccountId(rs.getInt(2));
 				statement.setDateField(GenericHelpers.getStringFromDate(rs.getDate(3)));
 				statement.setAmount(rs.getDouble(4));
+				
+				//get account detail for this statement
+				if(rs.getInt(2) != 0)
+				{
+				
+					statement.setAccount(acDAO.getAccountById(statement.getAccountId()));
+				}
 			}
 		}
 		catch(Exception e) {
@@ -145,6 +151,7 @@ public class StatementDAO implements IStatementDAO {
 	public List<StatementModel> getStatementByAccountId(int accountId) {
 	
 		List<StatementModel> accountStmtList = new ArrayList<>();
+		IAccountDAO acDAO = new AccountDAO();
 		Gson gson = new Gson();
         
 		try {
@@ -163,6 +170,13 @@ public class StatementDAO implements IStatementDAO {
 				statement.setDateField(rs.getDate(3).toString()); //GenericHelpers.getStringFromDate(rs.getDate(3))
 				statement.setAmount(rs.getDouble(4));
 				
+				//get account detail for this statement
+				if(rs.getInt(2) != 0)
+				{
+					
+					statement.setAccount(acDAO.getAccountById(statement.getAccountId()));
+				}
+				
 				accountStmtList.add(statement);
 			}
 		}
@@ -178,6 +192,7 @@ public class StatementDAO implements IStatementDAO {
 	@Override
 	public List<StatementModel> getAllStatementsByDate(String fromDate, String toDate) {
 		List<StatementModel> accountStmtList = new ArrayList<>();
+		IAccountDAO acDAO = new AccountDAO();
 		        
 		try {
 			conn = DBManager.getDBConnection();
@@ -196,6 +211,13 @@ public class StatementDAO implements IStatementDAO {
 				statement.setDateField(rs.getDate(3).toString()); //GenericHelpers.getStringFromDate(rs.getDate(3))
 				statement.setAmount(rs.getDouble(4));
 				
+				//get account detail for this statement
+				if(rs.getInt(2) != 0)
+				{
+					
+					statement.setAccount(acDAO.getAccountById(statement.getAccountId()));
+				}
+				
 				accountStmtList.add(statement);
 			}
 		}
@@ -209,10 +231,11 @@ public class StatementDAO implements IStatementDAO {
 	@Override
 	public List<StatementModel> getAllStatementsByAmount(Double fromAmount, Double toAmount) {
 		List<StatementModel> accountStmtList = new ArrayList<>();
+		IAccountDAO acDAO = new AccountDAO();
         
 		try {
 			conn = DBManager.getDBConnection();
-			prepareSql = conn.prepareStatement("SELECT * FROM statement WHERE amount >=? AND amount <=?;"); //eg: 5000
+			prepareSql = conn.prepareStatement("SELECT * FROM statement WHERE amount >=? AND amount <=?;");
 			prepareSql.setDouble(1, fromAmount);
 			prepareSql.setDouble(2, toAmount);
 			
@@ -226,6 +249,13 @@ public class StatementDAO implements IStatementDAO {
 				statement.setAccountId(rs.getInt(2));
 				statement.setDateField(rs.getDate(3).toString());
 				statement.setAmount(rs.getDouble(4));
+				
+				//get account detail for this statement
+				if(rs.getInt(2) != 0)
+				{
+					
+					statement.setAccount(acDAO.getAccountById(statement.getAccountId()));
+				}
 				
 				accountStmtList.add(statement);
 			}
@@ -241,8 +271,7 @@ public class StatementDAO implements IStatementDAO {
 	public List<StatementModel> getAllStatements() {
 		List<StatementModel> accountStmtList = new ArrayList<>();
 		IAccountDAO acDAO = new AccountDAO();
-		Gson gson = new Gson();
-        
+		        
 		try {
 			conn = DBManager.getDBConnection();
 			prepareSql = conn.prepareStatement("select * from statement;");
@@ -270,8 +299,47 @@ public class StatementDAO implements IStatementDAO {
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		String jsonData = gson.toJson(accountStmtList);
-		System.out.println("Account Statement::" + jsonData);
+		
+		System.out.println("Account Statement::" + accountStmtList);
+		
+		return accountStmtList;
+	}
+	
+	@Override
+	public List<StatementModel> getAllStatementsByQuery(String query)
+	{
+		List<StatementModel> accountStmtList = new ArrayList<>();
+		IAccountDAO acDAO = new AccountDAO();
+		        
+		try {
+			conn = DBManager.getDBConnection();
+			prepareSql = conn.prepareStatement(query);
+						
+			System.out.println("DB Query::" + prepareSql.toString());
+			
+			ResultSet rs = prepareSql.executeQuery();
+			while(rs.next())
+			{
+				StatementModel statement = new StatementModel();
+				statement.setId(rs.getInt(1));
+				statement.setAccountId(rs.getInt(2));
+				statement.setDateField(rs.getDate(3).toString()); //GenericHelpers.getStringFromDate(rs.getDate(3))
+				statement.setAmount(rs.getDouble(4));
+				
+				//get account detail for this statement
+				if(rs.getInt(2) != 0)
+				{
+					statement.setAccount(acDAO.getAccountById(statement.getAccountId()));
+				}
+				
+				accountStmtList.add(statement);
+			}
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		System.out.println("Account Statement::" + accountStmtList);
 		
 		return accountStmtList;
 	}

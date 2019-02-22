@@ -1,6 +1,4 @@
 package com.ebuka.dataObjects;
-
-import java.util.Date;
 import java.util.List;
 
 import com.ebuka.model.StatementModel;
