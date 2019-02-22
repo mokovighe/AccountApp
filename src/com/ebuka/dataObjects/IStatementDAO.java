@@ -13,4 +13,5 @@ public interface IStatementDAO {
 	public List<StatementModel> getAllStatementsByDate(String fromDate, String toDate);
 	public List<StatementModel> getAllStatementsByAmount(Double fromAmount, Double toAmount);
 	public List<StatementModel> getAllStatements();
+	public List<StatementModel> getAllStatementsByQuery(String query);
 }

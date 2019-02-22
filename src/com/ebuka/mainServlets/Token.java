@@ -98,7 +98,7 @@ public class Token extends HttpServlet {
 		final String SECRET = Base64.encodeBase64String(GenericHelpers.secretKey.getBytes());
 	    String token = Jwts.builder()
 	                     .setSubject(login)
-	                     .setExpiration(GenericHelpers.addMinuteToCurrentDate(15))
+	                     .setExpiration(GenericHelpers.addMinuteToCurrentDate(5))
 	                     .signWith(SignatureAlgorithm.HS512, SECRET)
 	                     .compact();
 	    return token;
