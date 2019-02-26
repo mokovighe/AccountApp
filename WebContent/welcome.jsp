@@ -1,19 +1,27 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="com.ebuka.model.UserModel" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="com.ebuka.model.UserModel" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+ <link rel="shortcut icon" href="<c:url value='/assets/images/logo.png'/>" type="image/x-icon">
  <meta name="description" content="">
  
  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="assets/animate.css/animate.min.css">
- <link rel="stylesheet" href="assets/mobirise/css/style.css">
- <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+ <link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap/css/bootstrap.min.css'/>" />
+ <link rel="stylesheet" type="text/css" href="<c:url value='/assets/animate.css/animate.min.css'/>" />
+ <link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/style.css'/>" />
+ <link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/mbr-additional.css'/>" />
+ 
+<script src="<c:url value="/assets/web/assets/jquery/jquery.min.js" />"></script>
+<script src="<c:url value="/assets/bootstrap/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/assets/smooth-scroll/SmoothScroll.js" />"></script>
+<script src="<c:url value="/assets/jarallax/jarallax.js" />"></script>
+<script src="<c:url value="/assets/mobirise/js/script.js" />"></script>
+
 <title>Welcome</title>
 </head>
 <body>
@@ -39,13 +47,7 @@
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
                             <li class="mbr-navbar__item">
                             <a class="mbr-buttons__link btn text-white" href="${pageContext.request.contextPath}/UserView">USERS</a>
-                            </li>
-                            <!--<li class="mbr-navbar__item">
-                            <a class="mbr-buttons__link btn text-white" href="accountView.jsp">ACCOUNTS</a>
-                            </li>
-                            <li class="mbr-navbar__item">
-                            <a class="mbr-buttons__link btn text-white" href="statementView.jsp">STATEMENTS</a>
-                            </li>-->
+                            </li>                          
                             </ul>                            
                             <ul class="mbr-navbar__items mbr-navbar__items--right mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-inverse mbr-buttons--active"><li class="mbr-navbar__item">
                            
@@ -61,7 +63,7 @@
     </div>
 </section>
 
-<section class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header4-0" style="background-image: url(assets/images/bg.jpg);">
+<section class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--full-height mbr-section--bg-adapted mbr-parallax-background" id="header4-0" style="background:#742f37;">
     <div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-box__magnet--center-center mbr-after-navbar">
         
         <div class="mbr-box__container mbr-section__container container">
@@ -90,11 +92,5 @@
     </div>
 </footer>
 
-
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/SmoothScroll.js"></script>
-  <script src="assets/jarallax/jarallax.js"></script>
-  <script src="assets/mobirise/js/script.js"></script>
 </body>
 </html>

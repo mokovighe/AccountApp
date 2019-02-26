@@ -1,20 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" import="com.ebuka.model.UserModel"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix ="c" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
  <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+ <link rel="shortcut icon" href="<c:url value='/assets/images/logo.png'/>" type="image/x-icon">
  <meta name="description" content="">
- 
- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="assets/animate.css/animate.min.css">
- <link rel="stylesheet" href="assets/mobirise/css/style.css">
- <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese" />   
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap/css/bootstrap.min.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/animate.css/animate.min.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/style.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/mbr-additional.css'/>" />
 <title>All Users</title>
 </head>
 <body>
@@ -38,7 +37,7 @@
                         <div class="mbr-navbar__column">
                             <ul class="mbr-navbar__items mbr-navbar__items--right float-left mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-decorator mbr-buttons--active">
                             <li class="mbr-navbar__item">
-                            <a class="mbr-buttons__link btn text-white" href="userView.jsp">USERS</a>
+                            <a class="mbr-buttons__link btn text-white" href="${pageContext.request.contextPath}/UserView">USERS</a>
                             </li>
                             </ul>                            
                             <ul class="mbr-navbar__items mbr-navbar__items--right mbr-buttons mbr-buttons--freeze mbr-buttons--right btn-inverse mbr-buttons--active"><li class="mbr-navbar__item">

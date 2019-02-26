@@ -1,25 +1,26 @@
-<%@ page import="java.sql.Connection" %>
-<%@ page import="com.ebuka.dbWork.DBManager" %>
-<%@ page import="java.sql.DriverManager" %>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="ISO-8859-1">
 <meta charset="UTF-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="generator" content="Mobirise v3.5.1, mobirise.com">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
- <meta name="description" content="">
- 
- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese">
- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
- <link rel="stylesheet" href="assets/animate.css/animate.min.css">
- <link rel="stylesheet" href="assets/mobirise/css/style.css">
- <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="<c:url value='/assets/images/logo.png'/>" type="image/x-icon">
+<meta name="description" content="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese" />   
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/bootstrap/css/bootstrap.min.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/animate.css/animate.min.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/style.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/assets/mobirise/css/mbr-additional.css'/>" />
+
+<script src="<c:url value="/assets/web/assets/jquery/jquery.min.js" />"></script>
+<script src="<c:url value="/assets/bootstrap/js/bootstrap.min.js" />"></script>
+<script src="<c:url value="/assets/smooth-scroll/SmoothScroll.js" />"></script>
+<script src="<c:url value="/assets/jarallax/jarallax.js" />"></script>
+<script src="<c:url value="/assets/mobirise/js/script.js" />"></script>
+
 <title>Login</title>
 </head>
 <body>
@@ -76,10 +77,5 @@
 </footer>
 
 
-  <script src="assets/web/assets/jquery/jquery.min.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-  <script src="assets/smooth-scroll/SmoothScroll.js"></script>
-  <script src="assets/jarallax/jarallax.js"></script>
-  <script src="assets/mobirise/js/script.js"></script>
 </body>
 </html>

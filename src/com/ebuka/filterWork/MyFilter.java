@@ -31,13 +31,13 @@ public class MyFilter implements Filter {
 		
 		HttpSession session = req.getSession(false);
 		
-		if(uri.endsWith("statement") || uri.endsWith("token"))
+		if(uri.endsWith("statement") || uri.endsWith("account") || uri.endsWith("token"))
 		{
 			System.out.println("Statement or token url is called");
 			
 			chain.doFilter(request, response);
 		}
-		else if(uri.endsWith("jsp") || uri.endsWith("Login") || uri.endsWith("Welcome") || uri.endsWith("UserView") || uri.endsWith("Logout"))
+		else if(uri.endsWith("jsp") || uri.endsWith("css") || uri.endsWith("js") || uri.endsWith("Login") || uri.endsWith("Welcome") || uri.endsWith("UserView") || uri.endsWith("Logout"))
 		{
 			//
 			
@@ -55,7 +55,7 @@ public class MyFilter implements Filter {
 			else {
 				//correct
 				System.out.println("Authorized access request");
-				if(session != null)
+				/**if(session != null)
 				{
 					System.out.println("AccountApp Session::" + session.toString());
 					
@@ -63,9 +63,10 @@ public class MyFilter implements Filter {
 				} else {
 					System.out.println("AccountApp Session is null");
 					//res.sendRedirect("login.jsp");
-				}
+				}***/
 				chain.doFilter(request, response);
 			}
+			
 		}
 		else {
 			System.out.println("Redirect to login");

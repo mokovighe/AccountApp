@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.codec.binary.Base64;
-
 import com.ebuka.model.StatementModel;
 import com.ebuka.model.UserModel;
 import com.ebuka.utils.GenericHelpers;
@@ -22,51 +20,23 @@ import com.ebuka.dataObjects.StatementDAO;
 import com.ebuka.dataObjects.UserDAO;
 import com.google.gson.Gson;
 
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-
 @WebServlet(description = "API to return account's statement to user", urlPatterns = { "/api/statement" })
 public class StatementServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson = new Gson();
 	IStatementDAO s;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public StatementServlet() {
         super();
         s = new StatementDAO();
     }
-
-    private String resolveToken(HttpServletRequest request){
-	    String bearerToken = request.getHeader(GenericHelpers.AUTHORIZATION_HEADER);
-	    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-	    	
-	        return bearerToken.substring(7, bearerToken.length());
-	    }
-	    return null;
-	}
-    private String validateMyToken(String token)
-	{
-    	String user = null;
-		final String SECRET1 = Base64.encodeBase64String(GenericHelpers.secretKey.getBytes());
-		try {
-			user = Jwts.parser().setSigningKey(SECRET1).parseClaimsJws(token).getBody().getSubject();
-			System.out.println("validateMyToken: " + user);
-		}
-		catch(ExpiredJwtException e)
-		{}
-	    
-	    return user;
-	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
         
-        String jwt = resolveToken(request);
+        String jwt = GenericHelpers.resolveToken(request);
         if(jwt == null)
         {
         	GenericHelpers.showMessage(out, GenericHelpers.jsonResponse(HttpServletResponse.SC_UNAUTHORIZED, false, "It may be that you didn't supply authentication token. Please login for a valid token."));
@@ -75,7 +45,7 @@ public class StatementServlet extends HttpServlet {
         	//
         	System.out.println("Bearer::" + jwt);
 			
-			String validUser = this.validateMyToken(jwt);
+			String validUser = GenericHelpers.validateMyToken(jwt);
 			if(validUser != null)
 			{
 				System.out.println("User Token Valid :: " + validUser);
@@ -98,15 +68,16 @@ public class StatementServlet extends HttpServlet {
 			        		out.print(statementJsonString);
 						}
 						else {
-							
-							String[] param1=null, param2=null, param3 = null, param4 = null, param5 = null;
-							String paramAccountId="", paramFromDate="", paramToDate="", paramFromAmount="", paramToAmount = "";
+							String statementJsonString = null;
+							String[] param1=null, param2=null, param3 = null, param4 = null, param5 = null, param6 = null;
+							String paramId="", paramAccountId="", paramFromDate="", paramToDate="", paramFromAmount="", paramToAmount = "";
 							String sqlQuery = "select * from statement where";
 							param1 = mapParameters.get("account_id");
 							param2 = mapParameters.get("from_date");
 							param3 = mapParameters.get("to_date");
 							param4 = mapParameters.get("from_amount");
 							param5 = mapParameters.get("to_amount");
+							param6 = mapParameters.get("id");
 							if(param1 != null)
 							{
 								paramAccountId = param1[0];
@@ -132,8 +103,16 @@ public class StatementServlet extends HttpServlet {
 								paramToAmount = param5[0];
 								System.out.println("from_amount Supplied::" + paramToAmount);
 							}
+							if(param6 != null)
+							{
+								paramId = param6[0];
+								System.out.println("statement id Supplied::" + paramId);
+							}
 							
-							
+							if(!paramId.isEmpty())
+							{
+								sqlQuery = sqlQuery + " (id=" + paramId + ")";
+							}
 							if(!paramAccountId.isEmpty())
 							{
 								sqlQuery = sqlQuery + " (account_id=" + paramAccountId + ")";
@@ -157,19 +136,28 @@ public class StatementServlet extends HttpServlet {
 							}
 														
 							//make sure that all parameters are right
-							if(!paramAccountId.isEmpty() || !paramFromDate.isEmpty() || !paramToDate.isEmpty() && !paramFromAmount.isEmpty() && !paramToAmount.isEmpty())
+							if(!paramId.isEmpty() && (paramAccountId.isEmpty() && paramFromDate.isEmpty() && paramToDate.isEmpty() && paramFromAmount.isEmpty() && paramToAmount.isEmpty()))
+							{							
+								List<StatementModel> statement = s.getAllStatementsByQuery(sqlQuery);
+				        		statementJsonString = gson.toJson(statement);
+				        					        									
+							}
+							else if(!paramAccountId.isEmpty() || !paramFromDate.isEmpty() || !paramToDate.isEmpty() && !paramFromAmount.isEmpty() && !paramToAmount.isEmpty())
 							{
 								//
 								List<StatementModel> statement = s.getAllStatementsByQuery(sqlQuery);
-				        		String statementJsonString = gson.toJson(statement);
+				        		statementJsonString = gson.toJson(statement);
 				        		               
-				        		out.print(statementJsonString);
+				        		///out.print(statementJsonString);
+							}
+							if(!statementJsonString.isEmpty())
+							{
+								out.print(statementJsonString);
 							}
 							else {
 								GenericHelpers.showMessage(out, GenericHelpers.jsonResponse(HttpServletResponse.SC_BAD_REQUEST, false, "Parameter request not right."));
 							}
-							
-						
+												
 						}
 					}
 					else if(u.getRole() != null && u.getRole().equalsIgnoreCase("developer") && u.getUsername().equalsIgnoreCase("testuser"))

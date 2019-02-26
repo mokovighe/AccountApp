@@ -16,9 +16,12 @@ import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import com.google.gson.JsonObject;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 
 public class GenericHelpers {
@@ -178,10 +181,12 @@ public class GenericHelpers {
 		if(httpCode == 200)
 		{
 			json.addProperty("TOKEN", message);
+			
 		}
 		else {
 			json.addProperty("MESSAGE", message);
 		}
+		
 		return json;
 	}
 	
@@ -212,5 +217,28 @@ public class GenericHelpers {
         } finally {
             out.close();
         }
+	}
+	
+	public static String resolveToken(HttpServletRequest request){
+	    String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+	    if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+	    	
+	        return bearerToken.substring(7, bearerToken.length());
+	    }
+	    return null;
+	}
+	
+	public static String validateMyToken(String token)
+	{
+    	String user = null;
+		final String SECRET1 = Base64.encodeBase64String(secretKey.getBytes());
+		try {
+			user = Jwts.parser().setSigningKey(SECRET1).parseClaimsJws(token).getBody().getSubject();
+			System.out.println("validateMyToken: " + user);
+		}
+		catch(ExpiredJwtException e)
+		{}
+	    
+	    return user;
 	}
 }

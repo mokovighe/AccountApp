@@ -19,26 +19,17 @@ public class UserView extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	IUserDAO userDAO;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public UserView() {
         super();
-        // TODO Auto-generated constructor stub
+        userDAO = new UserDAO();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		userDAO = new UserDAO();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		List<UserModel> modelList = userDAO.getAllUsers();
 		request.setAttribute("lists", modelList);
         RequestDispatcher rd = request.getRequestDispatcher("userView.jsp");
         rd.forward(request, response);
         
-		//response.sendRedirect("userView.jsp");
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 }

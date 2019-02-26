@@ -19,8 +19,7 @@ public class Logout extends HttpServlet {
 	IUserDAO userDAO = new UserDAO();
        
     public Logout() {
-        super();
-        // TODO Auto-generated constructor stub
+        super();       
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
